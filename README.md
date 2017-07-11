@@ -49,7 +49,6 @@ private void printXmlContents2()
   // since many food nodes were found, a list was generated and named foodList (common name + "List")
   Console.WriteLine("name1 = " + nutrition.foodList[0].name);
   Console.WriteLine("name2 = " + nutrition.foodList[1].name);
-
 }
 ```
 
