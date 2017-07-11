@@ -12,9 +12,9 @@ private void doStuff()
   var book = XmlSlurper.ParseText(xml);  
   
   // that's it, now we have everything
-  string id = book.id;
-  string isbn = book.isbn;
-  string author = book.author;
-  string title = book.title;
+  Console.WriteLine("id = " + book.id);
+  Console.WriteLine("isbn = " + book.isbn);
+  Console.WriteLine("author = " + book.author);
+  Console.WriteLine("title = " + book.title);
 }
 ```
