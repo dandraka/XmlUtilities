@@ -1,5 +1,27 @@
 # XmlUtilities
-An XmlSlurper implementation for .Net.
+An XmlSlurper implementation for .Net. The idea came from Groovy's XmlSlurper (http://groovy-lang.org/processing-xml.html) which is hugely useful.
+
+What this does, is convert a piece of xml, e.g.
+
+```
+<card xmlns="http://businesscard.org">
+   <name>John Doe</name>
+   <title>CEO, Widget Inc.</title>
+   <email>john.doe@widget.com</email>
+   <phone>(202) 456-1414</phone>
+   <logo url="widget.gif"/>
+ </card>
+```
+
+to a C# object, e.g.
+
+```
+card.name
+card.title
+card.email
+card.phone
+card.logo.url
+```
 
 Under the Release tab you can find the binaries to download.
 
