@@ -1,7 +1,7 @@
 # XmlUtilities
-An XmlSlurper implementation for .Net
+An XmlSlurper implementation for .Net.
 
-Usage:
+## Usage:
 
 ```
 using Dandraka.XmlUtilities;
@@ -18,3 +18,6 @@ private void doStuff()
   Console.WriteLine("title = " + book.title);
 }
 ```
+
+## Note: 
+Although not required by the license, the author kindly asks that you share any improvements you made.
