@@ -1,5 +1,5 @@
 # XmlUtilities
-An XmlSlurper implementation for .Net. The idea came from Groovy's XmlSlurper (http://groovy-lang.org/processing-xml.html) which is hugely useful.
+An XmlSlurper implementation for .Net. The idea came from [Groovy's XmlSlurper](http://groovy-lang.org/processing-xml.html) which is hugely useful.
 
 What this does, is convert a piece of xml, e.g.
 
