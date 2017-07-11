@@ -1,7 +1,7 @@
 # XmlUtilities
 An XmlSlurper implementation for .Net.
 
-Under the Release tab you can find the binaries download.
+Under the Release tab you can find the binaries to download.
 
 ## Usage:
 
