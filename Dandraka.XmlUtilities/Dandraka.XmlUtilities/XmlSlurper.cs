@@ -30,6 +30,9 @@ namespace Dandraka.XmlUtilities
 
             dynamic slurper = new ExpandoObject();
 
+            // debug
+            //slurper.id = Guid.NewGuid();
+
             var root = xmlDoc.DocumentElement;
             var rootNodes = root.ChildNodes;
 
@@ -101,6 +104,10 @@ namespace Dandraka.XmlUtilities
                 node.Attributes.Count > 0)
             {
                 dynamic slurperChild = new ExpandoObject();
+                
+                // debug
+                //slurperChild.id = Guid.NewGuid();
+
                 ((IDictionary<string, Object>) slurper).Add(getValidName(node.LocalName), slurperChild);
 
                 foreach (XmlAttribute attr in node.Attributes)
@@ -111,11 +118,16 @@ namespace Dandraka.XmlUtilities
                 {
                     if (childNode.LocalName == "#text")
                     {
-                        ((IDictionary<string, Object>) slurper).Add("Value", node.Value);
+                        //((IDictionary<string, Object>) slurper).Add("Value", node.Value);
+                        ((IDictionary<string, Object>)slurperChild).Add("Value", node.Value ?? node.InnerText);
                     }
                     else
                     {
                         addProperty(slurperChild, childNode);
+                        //foreach (var nodes in childNode.OfType<XmlNode>().GroupBy(x => x.LocalName))
+                        //{
+                        //    addPropertyGroup(slurperChild, nodes);
+                        //}
                     }
                 }
             }

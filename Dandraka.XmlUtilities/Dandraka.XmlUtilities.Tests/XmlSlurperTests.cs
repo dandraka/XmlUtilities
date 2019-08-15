@@ -37,6 +37,15 @@ namespace Dandraka.XmlUtilities.Tests
         }
 
         [TestMethod]
+        public void XmlMultipleLevelsNodesTest()
+        {
+            var settings = XmlSlurper.ParseText(getFile("settings.xml"));
+
+            Assert.AreEqual("true", settings.view.displayIcons);
+            Assert.AreEqual("false", settings.performance.additionalChecks.disk.brandOptions.toshiba.useBetaFunc);
+        }
+
+        [TestMethod]
         public void ListXmlNodesTest()
         {
             var catalog = XmlSlurper.ParseText(getFile("bookcatalog.xml"));
@@ -72,16 +81,19 @@ namespace Dandraka.XmlUtilities.Tests
         {
             var nutrition = XmlSlurper.ParseText(getFile("nutrition.xml"));
 
-            var foodList = nutrition.bookList;
+            var foodList = nutrition.foodList;
 
-            Assert.AreEqual(12, foodList.Count);
+            Assert.AreEqual(10, foodList.Count);
 
             var food1 = foodList[0];
             Assert.AreEqual("Avocado Dip", food1.name);
             Assert.AreEqual("Sunnydale", food1.mfr);
-            /*Assert.AreEqual("XML Developer's Guide", food1.total-fat);
-            Assert.AreEqual("Computer", food1.genre);
-            Assert.AreEqual("44.95", food1.price);*/
+            Assert.AreEqual("11", food1.totalfat);
+
+            var vitamins = food1.vitamins;
+
+            Assert.AreEqual("1", vitamins.a);
+            Assert.AreEqual("0", vitamins.c);
 
 
         }
