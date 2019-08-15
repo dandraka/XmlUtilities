@@ -120,7 +120,7 @@ namespace Dandraka.XmlUtilities
                 }
                 foreach (var nodes in node.ChildNodes.OfType<XmlNode>().Where(c => c.LocalName != "#text").GroupBy(x => x.LocalName))
                 {
-                    addPropertyGroup(slurper, nodes);
+                    addPropertyGroup(slurperChild, nodes);
                 }
             }
             else

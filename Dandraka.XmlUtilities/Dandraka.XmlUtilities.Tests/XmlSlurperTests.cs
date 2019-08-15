@@ -90,10 +90,8 @@ namespace Dandraka.XmlUtilities.Tests
             Assert.AreEqual("Sunnydale", food1.mfr);
             Assert.AreEqual("11", food1.totalfat);
 
-            var vitamins = food1.vitamins;
-
-            Assert.AreEqual("1", vitamins.a);
-            Assert.AreEqual("0", vitamins.c);
+            Assert.AreEqual("1", food1.vitamins.a);
+            Assert.AreEqual("0", food1.vitamins.c);
 
 
         }
