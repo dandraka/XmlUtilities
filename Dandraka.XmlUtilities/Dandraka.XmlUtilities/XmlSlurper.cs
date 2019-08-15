@@ -114,21 +114,13 @@ namespace Dandraka.XmlUtilities
                 {
                     ((IDictionary<string, Object>) slurperChild).Add(getValidName(attr.LocalName), attr.Value);
                 }
-                foreach (XmlNode childNode in node.ChildNodes)
+                foreach (XmlNode childNode in node.ChildNodes.OfType<XmlNode>().Where(c => c.LocalName == "#text"))
                 {
-                    if (childNode.LocalName == "#text")
-                    {
-                        //((IDictionary<string, Object>) slurper).Add("Value", node.Value);
-                        ((IDictionary<string, Object>)slurperChild).Add("Value", node.Value ?? node.InnerText);
-                    }
-                    else
-                    {
-                        addProperty(slurperChild, childNode);
-                        //foreach (var nodes in childNode.OfType<XmlNode>().GroupBy(x => x.LocalName))
-                        //{
-                        //    addPropertyGroup(slurperChild, nodes);
-                        //}
-                    }
+                    ((IDictionary<string, Object>)slurperChild).Add("Value", node.Value ?? node.InnerText);
+                }
+                foreach (var nodes in node.ChildNodes.OfType<XmlNode>().Where(c => c.LocalName != "#text").GroupBy(x => x.LocalName))
+                {
+                    addPropertyGroup(slurper, nodes);
                 }
             }
             else

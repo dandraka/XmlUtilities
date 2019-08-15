@@ -9,15 +9,15 @@ namespace Dandraka.XmlUtilities.Tests
     public class XmlSlurperTests
     {
         [TestMethod]
-        public void ObjectNotNullTest()
+        public void T01_ObjectNotNullTest()
         {
-            var book = XmlSlurper.ParseText(getFile("book.xml"));
+            var city = XmlSlurper.ParseText(getFile("city.xml"));
 
-            Assert.IsNotNull(book);
+            Assert.IsNotNull(city);
         }
 
         [TestMethod]
-        public void SimpleXmlAttributesTest()
+        public void T02_SimpleXmlAttributesTest()
         {
             var book = XmlSlurper.ParseText(getFile("book.xml"));
 
@@ -26,7 +26,7 @@ namespace Dandraka.XmlUtilities.Tests
         }
 
         [TestMethod]
-        public void SimpleXmlNodesTest()
+        public void T03_SimpleXmlNodesTest()
         {
             var book = XmlSlurper.ParseText(getFile("book.xml"));
 
@@ -37,7 +37,7 @@ namespace Dandraka.XmlUtilities.Tests
         }
 
         [TestMethod]
-        public void XmlMultipleLevelsNodesTest()
+        public void T04_XmlMultipleLevelsNodesTest()
         {
             var settings = XmlSlurper.ParseText(getFile("settings.xml"));
 
@@ -46,7 +46,7 @@ namespace Dandraka.XmlUtilities.Tests
         }
 
         [TestMethod]
-        public void ListXmlNodesTest()
+        public void T05_ListXmlNodesTest()
         {
             var catalog = XmlSlurper.ParseText(getFile("bookcatalog.xml"));
 
@@ -77,7 +77,7 @@ namespace Dandraka.XmlUtilities.Tests
         }
 
         [TestMethod]
-        public void BothPropertiesAndListXmlTest()
+        public void T06_BothPropertiesAndListRootXmlTest()
         {
             var nutrition = XmlSlurper.ParseText(getFile("nutrition.xml"));
 
@@ -99,7 +99,13 @@ namespace Dandraka.XmlUtilities.Tests
         }
 
         [TestMethod]
-        public void PrintXmlContents1()
+        public void T07_BothPropertiesAndListRecursiveXmlTest()
+        {
+            var city = XmlSlurper.ParseText(getFile("cityInfo.xml"));
+        }
+
+        [TestMethod]
+        public void T08_PrintXmlContents1()
         {
             string xml = "<book id=\"bk101\" isbn=\"123456789\"><author>Gambardella, Matthew</author><title>XML Developer Guide</title></book>";
             var book = XmlSlurper.ParseText(xml);
@@ -112,7 +118,7 @@ namespace Dandraka.XmlUtilities.Tests
         }
 
         [TestMethod]
-        public void PrintXmlContents2()
+        public void T09_PrintXmlContents2()
         {
             string xml = "<?xml version=\"1.0\" encoding=\"utf-8\" ?>" +
                          "<nutrition>" +
@@ -147,7 +153,7 @@ namespace Dandraka.XmlUtilities.Tests
 
         private string getFile(string fileName)
         {
-            string path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "files", fileName);
+            string path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "testdata", fileName);
             return File.ReadAllText(path);
         }
     }
