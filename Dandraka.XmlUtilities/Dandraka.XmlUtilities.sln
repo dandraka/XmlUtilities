@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.757
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dandraka.XmlUtilities", "Dandraka.XmlUtilities\Dandraka.XmlUtilities.csproj", "{2F868A1A-FCA7-4DE7-A65D-F569252AAA2E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dandraka.XmlUtilities.Tests", "Dandraka.XmlUtilities.Tests\Dandraka.XmlUtilities.Tests.csproj", "{630693FA-AAEA-4FBE-B442-BDA5C59CB485}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2F868A1A-FCA7-4DE7-A65D-F569252AAA2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F868A1A-FCA7-4DE7-A65D-F569252AAA2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F868A1A-FCA7-4DE7-A65D-F569252AAA2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F868A1A-FCA7-4DE7-A65D-F569252AAA2E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{630693FA-AAEA-4FBE-B442-BDA5C59CB485}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{630693FA-AAEA-4FBE-B442-BDA5C59CB485}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{630693FA-AAEA-4FBE-B442-BDA5C59CB485}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{630693FA-AAEA-4FBE-B442-BDA5C59CB485}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {562785B0-5DD8-45FE-923B-1C9F16F8FFEE}
+	EndGlobalSection
+EndGlobal

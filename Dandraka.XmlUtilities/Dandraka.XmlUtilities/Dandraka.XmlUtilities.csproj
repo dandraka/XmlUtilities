@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Jim (Dimitrios) Andrakakis</Authors>
+    <Company>dandraka.com</Company>
+    <Description>An XmlSlurper implementation for .Net.</Description>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/dandraka/XmlUtilities/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/dandraka/XmlUtilities</PackageProjectUrl>
+    <RepositoryUrl></RepositoryUrl>
+    <Copyright>Copyright (c) 2017 Jim (Dimitrios) Andrakakis</Copyright>
+    <PackageIconUrl>https://github.com/dandraka/XmlUtilities/raw/master/icon.png</PackageIconUrl>
+    <Version>1.1.0</Version>
+    <PackageReleaseNotes>Release 1.1 was converted from .Net Framework to .Net Standard (and tests to .Net core), in order to be as portable as possible.</PackageReleaseNotes>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CSharp" Version="4.5.0" />
+  </ItemGroup>
+
+</Project>
