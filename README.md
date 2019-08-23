@@ -82,4 +82,4 @@ public void PrintXmlContents2()
 The first production-ready release was uploaded. Please see the release page for a known bug.
 
 ## Note: 
-Although not required by the license, the author kindly asks that you share any improvements you made.
+Although not required by the license, the author kindly asks that you share any improvements you make.
