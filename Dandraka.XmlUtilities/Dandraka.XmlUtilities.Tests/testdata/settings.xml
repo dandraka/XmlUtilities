@@ -13,6 +13,7 @@
       </cpu>
       <disk>
         <minFreeSpace>2</minFreeSpace>
+        <warnFreeSpace>5.5</warnFreeSpace>
         <brandOptions>
           <samsung>
             <usePin>false</usePin>

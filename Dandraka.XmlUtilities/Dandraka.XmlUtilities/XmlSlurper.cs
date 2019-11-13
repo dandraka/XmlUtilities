@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 using System.Xml;
 
 namespace Dandraka.XmlUtilities
-{
+{    
     /// <summary>
     /// Implements dynamic XML parsing, the result being a dynamic object with properties 
     /// matching the xml nodes. 
@@ -16,8 +16,10 @@ namespace Dandraka.XmlUtilities
     /// </summary>
     public static class XmlSlurper
     {
+        public static string ListSuffix { get; set; } = "List";
+
         /// <summary>
-        /// Parses the given xml and returns a <c>System.Dynamic.ExpandoObject</c>.
+        /// Parses the given xml and returns a <c>System.Dynamic.ToStringExpandoObject</c>.
         /// </summary>
         /// <param name="text"></param>
         /// <returns></returns>
@@ -26,106 +28,92 @@ namespace Dandraka.XmlUtilities
             var xmlDoc = new XmlDocument();
             xmlDoc.LoadXml(text);
 
-            dynamic slurper = new ExpandoObject();
-
-            // debug
-            //slurper.id = Guid.NewGuid();
-
             var root = xmlDoc.DocumentElement;
-            var rootNodes = root.ChildNodes;
-
-            foreach (var a in root.Attributes.OfType<XmlAttribute>())
-            {
-                ((IDictionary<string, Object>)slurper).Add(getValidName(a.LocalName), a.Value);
-            }
-            foreach (var nodes in rootNodes.OfType<XmlNode>().GroupBy(x => x.LocalName))
-            {
-                addPropertyGroup(slurper, nodes);
-            }
-
-            return slurper;
-        }        
-
-        private static void addPropertyGroup(ExpandoObject slurper, IGrouping<string, XmlNode> nodes)
-        {
-            var nodeList = nodes.ToList();
-
-            if (nodeList.Count == 1)
-            {
-                addProperty(slurper, nodeList[0]);
-            }
-            else
-            {
-                var groupName = getValidName(nodeList[0].LocalName) + "List";
-                var groupList = new List<ExpandoObject>();
-                ((IDictionary<string, Object>)slurper).Add(getValidName(groupName), groupList);
-                foreach (var node in nodeList)
-                {
-                    addItemToList(groupList, node);
-                }                
-            }
+            return AddRecursive(new ToStringExpandoObject(), root);
         }
 
-        private static void addItemToList(List<ExpandoObject> groupList, XmlNode node)
+        private static dynamic AddRecursive(ToStringExpandoObject parent, XmlNode xmlObj)
         {
-            if ((node.HasChildNodes && node.ChildNodes.OfType<XmlNode>().Count(c => c.LocalName != "#text") > 0) ||
-                node.Attributes.Count > 0)
-            {
-                dynamic slurperChild = new ExpandoObject();
-                groupList.Add(slurperChild);
+            var propertiesList = new List<Tuple<string, XmlNode>>();
 
-                foreach (XmlAttribute attr in node.Attributes)
+            if (xmlObj.ChildNodes != null)
+            {
+                foreach (var xmlChild in xmlObj.ChildNodes.OfType<XmlNode>().Where(c => c.LocalName != "#text").ToList())
                 {
-                    ((IDictionary<string, Object>)slurperChild).Add(getValidName(attr.LocalName), attr.Value);
+                    string name = getValidName(xmlChild.LocalName);
+                    propertiesList.Add(new Tuple<string, XmlNode>(name, xmlChild));
                 }
-                foreach (XmlNode childNode in node.ChildNodes)
+            }
+            if (xmlObj.Attributes != null)
+            {
+                foreach (var xmlChild in xmlObj.Attributes.OfType<XmlAttribute>().ToList())
                 {
-                    if (childNode.LocalName == "#text")
+                    string name = getValidName(xmlChild.LocalName);
+                    propertiesList.Add(new Tuple<string, XmlNode>(name, xmlChild));
+                }
+            }
+
+            // attribute + list names
+            var groups = propertiesList.GroupBy(x => x.Item1);
+            foreach (var group in groups)
+            {
+                if (group.Count() == 1)
+                {
+                    // add property to parent
+                    dynamic newMember = new ToStringExpandoObject();
+                    XmlNode node = group.First().Item2;
+                    newMember.__value = getXmlNodeValue(node);
+                    newMember.ToString = (ToStringFunc)(() => newMember.__value);
+                    string newMemberName = group.Key;
+
+                    ((IDictionary<string, Object>)parent.Members).Add(newMemberName, newMember);
+                    AddRecursive(newMember, node);
+                }
+                else
+                {
+                    // lists
+                    string listName = $"{group.Key}{ListSuffix}";
+                    List<ToStringExpandoObject> newList;
+                    if (!((IDictionary<string, Object>)parent.Members).ContainsKey(listName))
                     {
-                        //groupList.Add(node.LocalName, node.Value);
+                        newList = new List<ToStringExpandoObject>();
+                        ((IDictionary<string, Object>)parent.Members).Add(listName, newList);
                     }
                     else
                     {
-                        addProperty(slurperChild, childNode);
+                        newList = ((IDictionary<string, Object>)parent.Members)[listName] as List<ToStringExpandoObject>;
+                    }
+                    foreach (var listNode in group.ToList())
+                    {
+                        // add property to parent
+                        dynamic newMember = new ToStringExpandoObject();
+                        XmlNode node = listNode.Item2;
+                        newMember.__value = getXmlNodeValue(node);
+                        newMember.ToString = (ToStringFunc)(() => newMember.__value);
+                        //string newMemberName = group.Key;
+
+                        newList.Add(newMember);
+                        AddRecursive(newMember, node);
                     }
                 }
             }
-            else
-            {
-                //groupList.Add(node.LocalName, node.Value ?? node.ChildNodes[0].Value);
-            }
+
+            return parent;
         }
 
-        private static void addProperty(ExpandoObject slurper, XmlNode node)
+        private static string getXmlNodeValue(XmlNode node)
         {
-            if ((node.HasChildNodes && node.ChildNodes.OfType<XmlNode>().Count(c => c.LocalName != "#text") > 0) ||
-                node.Attributes.Count > 0)
+            if (node is XmlAttribute)
             {
-                dynamic slurperChild = new ExpandoObject();
-                
-                // debug
-                //slurperChild.id = Guid.NewGuid();
-
-                ((IDictionary<string, Object>) slurper).Add(getValidName(node.LocalName), slurperChild);
-
-                foreach (XmlAttribute attr in node.Attributes)
-                {
-                    ((IDictionary<string, Object>) slurperChild).Add(getValidName(attr.LocalName), attr.Value);
-                }
-                foreach (XmlNode childNode in node.ChildNodes.OfType<XmlNode>().Where(c => c.LocalName == "#text"))
-                {
-                    ((IDictionary<string, Object>)slurperChild).Add("Value", node.Value ?? node.InnerText);
-                }
-                foreach (var nodes in node.ChildNodes.OfType<XmlNode>().Where(c => c.LocalName != "#text").GroupBy(x => x.LocalName))
-                {
-                    addPropertyGroup(slurperChild, nodes);
-                }
+                return (node as XmlAttribute).Value;
             }
-            else
+            if (node is XmlElement)
             {
-                ((IDictionary<string, Object>) slurper).Add(getValidName(node.LocalName), node.Value ?? node.ChildNodes[0].Value);
+                var e = (node as XmlElement);
+                return e.Value ?? e.ChildNodes.OfType<XmlNode>().FirstOrDefault(c => c.LocalName == "#text")?.Value;
             }
-        }
+            throw new NotSupportedException($"Type {node.GetType().FullName} is not supported");
+        }        
 
         private static string getValidName(string nodeName)
         {

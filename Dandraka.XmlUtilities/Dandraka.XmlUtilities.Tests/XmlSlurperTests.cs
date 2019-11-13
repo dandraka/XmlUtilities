@@ -100,6 +100,15 @@ namespace Dandraka.XmlUtilities.Tests
         public void T07_BothPropertiesAndListRecursiveXmlTest()
         {
             var city = XmlSlurper.ParseText(getFile("cityInfo.xml"));
+
+            Assert.IsTrue(city.Mayor == "Roni Mueller");
+            Assert.IsTrue(city.CityHall == "Schulstrasse 12");
+            Assert.IsTrue(city.Name == "Wilen bei Wollerau");
+            Assert.IsTrue(city.Gemeinde == "Freienbach");
+            Assert.AreEqual(3, city.StreetList.Count);
+
+            Assert.AreEqual("8832", city.StreetList[2].PostCode);
+            Assert.AreEqual(3, city.StreetList[2].HouseNumberList.Count);
         }
 
         [TestMethod]
@@ -147,6 +156,24 @@ namespace Dandraka.XmlUtilities.Tests
             // since many food nodes were found, a list was generated and named foodList (common name + "List")
             Console.WriteLine("name1 = " + nutrition.foodList[0].name);
             Console.WriteLine("name2 = " + nutrition.foodList[1].name);
+        }
+
+        [TestMethod]
+        public void T10_BoolIntDecimalTest()
+        {
+            var settings = XmlSlurper.ParseText(getFile("settings.xml"));
+
+            Assert.AreEqual<bool?>(true, settings.view.displayIcons);
+            Assert.AreEqual<bool?>(false, settings.view.showFiles);
+            Assert.AreEqual<int?>(2, settings.performance.additionalChecks.disk.minFreeSpace);
+            Assert.AreEqual<double?>(5.5, settings.performance.additionalChecks.disk.warnFreeSpace);
+            Assert.AreEqual<decimal?>(5.5m, settings.performance.additionalChecks.disk.warnFreeSpace);
+
+            // usage showcase
+            if (!settings.view.displayIcons)
+            {
+                Assert.Fail();
+            }
         }
 
         private string getFile(string fileName)
