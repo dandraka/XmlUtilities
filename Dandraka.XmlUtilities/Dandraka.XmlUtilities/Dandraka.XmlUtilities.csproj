@@ -16,6 +16,7 @@
 1. a major overhaul of the tree walking algorithm, which now can take every xml you can throw at it. This solves most, if not all, the bugs of the previous release.
 2. an implicit type conversion for string, int, decimal, double and bool. So now you can parse an xml and directly use its numbers or true/false values (see examples).</PackageReleaseNotes>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageTags>xml parsing dynamic</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
