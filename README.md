@@ -95,7 +95,7 @@ public void ReadSettings()
 ```
 
 ## Releases: 
-The first production-ready release was uploaded. Please see the release page for a known bug.
+Release fixes most, if not all, of the bugs from version 1.1.
 
 ## Note: 
 Although not required by the license, the author kindly asks that you share any improvements you make.
