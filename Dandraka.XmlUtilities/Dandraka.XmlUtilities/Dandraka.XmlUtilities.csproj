@@ -8,11 +8,13 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageLicenseUrl>https://raw.githubusercontent.com/dandraka/XmlUtilities/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/dandraka/XmlUtilities</PackageProjectUrl>
-    <RepositoryUrl></RepositoryUrl>
+    <RepositoryUrl>https://github.com/dandraka/XmlUtilities/</RepositoryUrl>
     <Copyright>Copyright (c) 2017 Jim (Dimitrios) Andrakakis</Copyright>
     <PackageIconUrl>https://github.com/dandraka/XmlUtilities/raw/master/icon.png</PackageIconUrl>
-    <Version>1.1.0</Version>
-    <PackageReleaseNotes>Release 1.1 was converted from .Net Framework to .Net Standard (and tests to .Net core), in order to be as portable as possible.</PackageReleaseNotes>
+    <Version>1.2.0</Version>
+    <PackageReleaseNotes>Release 1.2 is fully backwards compatible with 1.1 and has two major changes: 
+1. a major overhaul of the tree walking algorithm, which now can take every xml you can throw at it. This solves most, if not all, the bugs of the previous release.
+2. an implicit type conversion for string, int, decimal, double and bool. So now you can parse an xml and directly use its numbers or true/false values (see examples).</PackageReleaseNotes>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 

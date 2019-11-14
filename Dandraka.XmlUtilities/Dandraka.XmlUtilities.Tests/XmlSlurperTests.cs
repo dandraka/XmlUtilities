@@ -39,7 +39,7 @@ namespace Dandraka.XmlUtilities.Tests
         [TestMethod]
         public void T04_XmlMultipleLevelsNodesTest()
         {
-            var settings = XmlSlurper.ParseText(getFile("Settings.xml"));
+            var settings = XmlSlurper.ParseText(getFile("HardwareSettings.xml"));
 
             Assert.AreEqual("true", settings.view.displayIcons);
             Assert.AreEqual("false", settings.performance.additionalChecks.disk.brandOptions.toshiba.useBetaFunc);
@@ -167,7 +167,7 @@ namespace Dandraka.XmlUtilities.Tests
         [TestMethod]
         public void T10_BoolIntDecimalDoubleTest()
         {
-            var settings = XmlSlurper.ParseText(getFile("Settings.xml"));
+            var settings = XmlSlurper.ParseText(getFile("HardwareSettings.xml"));
 
             Assert.AreEqual<bool?>(true, settings.view.displayIcons);
             Assert.AreEqual<bool?>(false, settings.view.showFiles);
