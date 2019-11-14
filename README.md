@@ -91,7 +91,8 @@ public void ReadSettings()
 	    
 	int? minFreeSpace = settings.performance.additionalChecks.disk.minFreeSpace;
 
-	// Implicit type conversion works for string, bool?, int?, double?, decimal?
+	// Implicit type conversion works for string, bool?, int?, double?, decimal?, 
+	// bool, int, double and decimal.
 	// Note that if the xml content cannot be parsed (e.g. you try to use 
 	// an xml node as bool but it contains "lalala") then for bool? you get null, 
 	// and for bool you get a ValueConversionException.
@@ -99,7 +100,7 @@ public void ReadSettings()
 ```
 
 ## Releases: 
-Release 1.2 fixes most, if not all, of the bugs from version 1.1.
+Release 1.2.x fixes most, if not all, of the bugs from version 1.1.
 
 ## Note: 
 Although not required by the license, the author kindly asks that you share any improvements you make.
