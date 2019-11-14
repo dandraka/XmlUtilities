@@ -23,7 +23,7 @@ card.phone
 card.logo.url
 ```
 
-This is done ***without any need to declare the type*** (it actually uses [System.Dynamic.ExpandoObject](https://msdn.microsoft.com/en-us/library/system.dynamic.expandoobject(v=vs.110).aspx) behind the scenes).
+This is done ***without any need to declare the type*** (it uses a class similar to System.Dynamic.ExpandoObjectt, [ToStringExpandoObject](https://docs.microsoft.com/en-gb/dotnet/csharp/language-reference/operators/user-defined-conversion-operators) behind the scenes).
 
 Under the Release tab you can find the binaries to download.
 
