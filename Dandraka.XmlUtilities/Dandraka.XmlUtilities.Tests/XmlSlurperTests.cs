@@ -175,6 +175,12 @@ namespace Dandraka.XmlUtilities.Tests
             Assert.AreEqual<double?>(5.5, settings.performance.additionalChecks.disk.warnFreeSpace);
             Assert.AreEqual<decimal?>(5.5m, settings.performance.additionalChecks.disk.warnFreeSpace);
 
+            Assert.AreEqual<bool>(true, settings.view.displayIcons);
+            Assert.AreEqual<bool>(false, settings.view.showFiles);
+            Assert.AreEqual<int>(2, settings.performance.additionalChecks.disk.minFreeSpace);
+            Assert.AreEqual<double>(5.5, settings.performance.additionalChecks.disk.warnFreeSpace);
+            Assert.AreEqual<decimal>(5.5m, settings.performance.additionalChecks.disk.warnFreeSpace);
+
             // usage showcase
             if (!settings.view.displayIcons)
             {
@@ -185,6 +191,29 @@ namespace Dandraka.XmlUtilities.Tests
             {
                 Assert.Fail();
             }
+        }
+
+        [TestMethod]
+        public void T11_ConversionExceptionTest()
+        {
+            var settings = XmlSlurper.ParseText(getFile("HardwareSettings.xml"));
+
+            Assert.ThrowsException<ValueConversionException>(() =>
+            {
+                int t = settings.view.displayIcons;
+            });
+            Assert.ThrowsException<ValueConversionException>(() =>
+            {
+                decimal t = settings.view.displayIcons;
+            });
+            Assert.ThrowsException<ValueConversionException>(() =>
+            {
+                double t = settings.view.displayIcons;
+            });
+            Assert.ThrowsException<ValueConversionException>(() =>
+            {
+                bool t = settings.performance.additionalChecks.disk.minFreeSpace;
+            });
         }
 
         private string getFile(string fileName)

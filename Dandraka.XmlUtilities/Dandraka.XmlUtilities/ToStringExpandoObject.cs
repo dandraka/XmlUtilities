@@ -75,6 +75,46 @@ namespace Dandraka.XmlUtilities
             return null;
         }
 
+        public static implicit operator bool (ToStringExpandoObject e)
+        {
+            var b = (bool?)e;
+            if (b.HasValue)
+            {
+                return b.Value;
+            }
+            throw new ValueConversionException(typeof(bool), e);
+        }
+
+        public static implicit operator int(ToStringExpandoObject e)
+        {
+            var b = (int?)e;
+            if (b.HasValue)
+            {
+                return b.Value;
+            }
+            throw new ValueConversionException(typeof(int), e);
+        }
+
+        public static implicit operator decimal(ToStringExpandoObject e)
+        {
+            var b = (decimal?)e;
+            if (b.HasValue)
+            {
+                return b.Value;
+            }
+            throw new ValueConversionException(typeof(decimal), e);
+        }
+
+        public static implicit operator double(ToStringExpandoObject e)
+        {
+            var b = (double?)e;
+            if (b.HasValue)
+            {
+                return b.Value;
+            }
+            throw new ValueConversionException(typeof(double), e);
+        }
+
         public override string ToString()
         {
             //see if we defined a ToString member
