@@ -76,6 +76,22 @@ public void PrintXmlContents2()
 	Console.WriteLine("name1 = " + nutrition.foodList[0].name);
 	Console.WriteLine("name2 = " + nutrition.foodList[1].name);
 }
+
+public void ReadSettings()
+{
+	var settings = XmlSlurper.ParseText(getFile("HardwareSettings.xml"));
+            
+	if (!settings.view.displayIcons)
+	{
+		DoWhatever();
+	}
+	    
+	int? minFreeSpace = settings.performance.additionalChecks.disk.minFreeSpace;
+
+	// Implicit type conversion works for string, bool?, int?, double?, decimal?
+	// Note that if the xml content cannot be parsed (e.g. you try to use 
+	// an xml node as bool but it contains "lalala") then you get null.
+}
 ```
 
 ## Releases: 
