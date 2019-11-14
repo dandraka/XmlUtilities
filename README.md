@@ -25,10 +25,8 @@ card.logo.url
 
 This is done ***without any need to declare the type*** . Behind the scenes it uses a class similar to System.Dynamic.ExpandoObject, named [ToStringExpandoObject](https://gist.github.com/kcuzner/3670e78ae1707a0e959d).
 
-Under the Release tab you can find the binaries to download.
-
 ## Downloading:
-You can go the Releases page and download the dll, but the recommended way is to use it as a nuget dependency. The nuget package is named Dandraka.XmlUtilities, here: https://www.nuget.org/packages/Dandraka.XmlUtilities .
+Under the Release tab you can find the binaries to download, but the ***recommended*** way is to use it as a nuget dependency. The nuget package is named Dandraka.XmlUtilities, here: https://www.nuget.org/packages/Dandraka.XmlUtilities .
 
 ## Usage:
 
