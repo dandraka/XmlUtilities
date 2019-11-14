@@ -95,7 +95,7 @@ public void ReadSettings()
 ```
 
 ## Releases: 
-Release fixes most, if not all, of the bugs from version 1.1.
+Release 1.2 fixes most, if not all, of the bugs from version 1.1.
 
 ## Note: 
 Although not required by the license, the author kindly asks that you share any improvements you make.
