@@ -11,7 +11,7 @@ namespace Dandraka.XmlUtilities.Tests
         [TestMethod]
         public void T01_ObjectNotNullTest()
         {
-            var city = XmlSlurper.ParseText(getFile("city.xml"));
+            var city = XmlSlurper.ParseText(getFile("City.xml"));
 
             Assert.IsNotNull(city);
         }
@@ -19,7 +19,7 @@ namespace Dandraka.XmlUtilities.Tests
         [TestMethod]
         public void T02_SimpleXmlAttributesTest()
         {
-            var book = XmlSlurper.ParseText(getFile("book.xml"));
+            var book = XmlSlurper.ParseText(getFile("Book.xml"));
 
             Assert.AreEqual("bk101", book.id);
             Assert.AreEqual("123456789", book.isbn);
@@ -28,7 +28,7 @@ namespace Dandraka.XmlUtilities.Tests
         [TestMethod]
         public void T03_SimpleXmlNodesTest()
         {
-            var book = XmlSlurper.ParseText(getFile("book.xml"));
+            var book = XmlSlurper.ParseText(getFile("Book.xml"));
 
             Assert.AreEqual("Gambardella, Matthew", book.author);
             Assert.AreEqual("XML Developer's Guide", book.title);
@@ -39,7 +39,7 @@ namespace Dandraka.XmlUtilities.Tests
         [TestMethod]
         public void T04_XmlMultipleLevelsNodesTest()
         {
-            var settings = XmlSlurper.ParseText(getFile("settings.xml"));
+            var settings = XmlSlurper.ParseText(getFile("Settings.xml"));
 
             Assert.AreEqual("true", settings.view.displayIcons);
             Assert.AreEqual("false", settings.performance.additionalChecks.disk.brandOptions.toshiba.useBetaFunc);
@@ -48,7 +48,7 @@ namespace Dandraka.XmlUtilities.Tests
         [TestMethod]
         public void T05_ListXmlNodesTest()
         {
-            var catalog = XmlSlurper.ParseText(getFile("bookcatalog.xml"));
+            var catalog = XmlSlurper.ParseText(getFile("BookCatalog.xml"));
 
             var bookList = catalog.bookList;
 
@@ -79,7 +79,7 @@ namespace Dandraka.XmlUtilities.Tests
         [TestMethod]
         public void T06_BothPropertiesAndListRootXmlTest()
         {
-            var nutrition = XmlSlurper.ParseText(getFile("nutrition.xml"));
+            var nutrition = XmlSlurper.ParseText(getFile("Nutrition.xml"));
 
             var foodList = nutrition.foodList;
 
@@ -99,7 +99,7 @@ namespace Dandraka.XmlUtilities.Tests
         [TestMethod]
         public void T07_BothPropertiesAndListRecursiveXmlTest()
         {
-            var city = XmlSlurper.ParseText(getFile("cityInfo.xml"));
+            var city = XmlSlurper.ParseText(getFile("CityInfo.xml"));
 
             Assert.IsTrue(city.Mayor == "Roni Mueller");
             Assert.IsTrue(city.CityHall == "Schulstrasse 12");
@@ -111,6 +111,9 @@ namespace Dandraka.XmlUtilities.Tests
             Assert.AreEqual(3, city.StreetList[2].HouseNumberList.Count);
         }
 
+        /// <summary>
+        /// Usage showcase
+        /// </summary>
         [TestMethod]
         public void T08_PrintXmlContents1()
         {
@@ -124,6 +127,9 @@ namespace Dandraka.XmlUtilities.Tests
             Console.WriteLine("title = " + book.title);
         }
 
+        /// <summary>
+        /// Usage showcase
+        /// </summary>
         [TestMethod]
         public void T09_PrintXmlContents2()
         {
@@ -159,9 +165,9 @@ namespace Dandraka.XmlUtilities.Tests
         }
 
         [TestMethod]
-        public void T10_BoolIntDecimalTest()
+        public void T10_BoolIntDecimalDoubleTest()
         {
-            var settings = XmlSlurper.ParseText(getFile("settings.xml"));
+            var settings = XmlSlurper.ParseText(getFile("Settings.xml"));
 
             Assert.AreEqual<bool?>(true, settings.view.displayIcons);
             Assert.AreEqual<bool?>(false, settings.view.showFiles);
