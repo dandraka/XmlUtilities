@@ -93,7 +93,8 @@ public void ReadSettings()
 
 	// Implicit type conversion works for string, bool?, int?, double?, decimal?
 	// Note that if the xml content cannot be parsed (e.g. you try to use 
-	// an xml node as bool but it contains "lalala") then you get null.
+	// an xml node as bool but it contains "lalala") then for bool? you get null, 
+	// and for bool you get a ValueConversionException.
 }
 ```
 
