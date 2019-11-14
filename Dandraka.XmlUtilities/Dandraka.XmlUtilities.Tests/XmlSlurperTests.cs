@@ -180,6 +180,11 @@ namespace Dandraka.XmlUtilities.Tests
             {
                 Assert.Fail();
             }
+            int? minFreeSpace = settings.performance.additionalChecks.disk.minFreeSpace;
+            if (minFreeSpace != 2)
+            {
+                Assert.Fail();
+            }
         }
 
         private string getFile(string fileName)
