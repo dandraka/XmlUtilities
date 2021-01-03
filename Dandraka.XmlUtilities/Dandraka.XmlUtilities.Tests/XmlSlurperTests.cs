@@ -1,120 +1,120 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace Dandraka.XmlUtilities.Tests
 {
-    [TestClass]
+    //[TestClass]
     public class XmlSlurperTests
     {
-        [TestMethod]
+        [Fact]
         public void T01_ObjectNotNullTest()
         {
             var city = XmlSlurper.ParseText(getFile("City.xml"));
 
-            Assert.IsNotNull(city);
+            Assert.NotNull(city);
         }
 
-        [TestMethod]
+        [Fact]
         public void T02_SimpleXmlAttributesTest()
         {
             var book = XmlSlurper.ParseText(getFile("Book.xml"));
 
-            Assert.AreEqual("bk101", book.id);
-            Assert.AreEqual("123456789", book.isbn);
+            Assert.Equal("bk101", book.id);
+            Assert.Equal("123456789", book.isbn);
         }
 
-        [TestMethod]
+        [Fact]
         public void T03_SimpleXmlNodesTest()
         {
             var book = XmlSlurper.ParseText(getFile("Book.xml"));
 
-            Assert.AreEqual("Gambardella, Matthew", book.author);
-            Assert.AreEqual("XML Developer's Guide", book.title);
-            Assert.AreEqual("Computer", book.genre);
-            Assert.AreEqual("44.95", book.price);
+            Assert.Equal("Gambardella, Matthew", book.author);
+            Assert.Equal("XML Developer's Guide", book.title);
+            Assert.Equal("Computer", book.genre);
+            Assert.Equal("44.95", book.price);
         }
 
-        [TestMethod]
+        [Fact]
         public void T04_XmlMultipleLevelsNodesTest()
         {
             var settings = XmlSlurper.ParseText(getFile("HardwareSettings.xml"));
 
-            Assert.AreEqual("true", settings.view.displayIcons);
-            Assert.AreEqual("false", settings.performance.additionalChecks.disk.brandOptions.toshiba.useBetaFunc);
+            Assert.Equal("true", settings.view.displayIcons);
+            Assert.Equal("false", settings.performance.additionalChecks.disk.brandOptions.toshiba.useBetaFunc);
         }
 
-        [TestMethod]
+        [Fact]
         public void T05_ListXmlNodesTest()
         {
             var catalog = XmlSlurper.ParseText(getFile("BookCatalog.xml"));
 
             var bookList = catalog.bookList;
 
-            Assert.AreEqual(12, bookList.Count);
+            Assert.Equal(12, bookList.Count);
 
             var book1 = bookList[0];
-            Assert.AreEqual("bk101", book1.id);
-            Assert.AreEqual("Gambardella, Matthew", book1.author);
-            Assert.AreEqual("XML Developer's Guide", book1.title);
-            Assert.AreEqual("Computer", book1.genre);
-            Assert.AreEqual("44.95", book1.price);
+            Assert.Equal("bk101", book1.id);
+            Assert.Equal("Gambardella, Matthew", book1.author);
+            Assert.Equal("XML Developer's Guide", book1.title);
+            Assert.Equal("Computer", book1.genre);
+            Assert.Equal("44.95", book1.price);
 
             var book4 = bookList[3];
-            Assert.AreEqual("bk104", book4.id);
-            Assert.AreEqual("Corets, Eva", book4.author);
-            Assert.AreEqual("Oberon's Legacy", book4.title);
-            Assert.AreEqual("Fantasy", book4.genre);
-            Assert.AreEqual("5.95", book4.price);
+            Assert.Equal("bk104", book4.id);
+            Assert.Equal("Corets, Eva", book4.author);
+            Assert.Equal("Oberon's Legacy", book4.title);
+            Assert.Equal("Fantasy", book4.genre);
+            Assert.Equal("5.95", book4.price);
 
             var book12 = bookList[11];
-            Assert.AreEqual("bk112", book12.id);
-            Assert.AreEqual("Galos, Mike", book12.author);
-            Assert.AreEqual("Visual Studio 7: A Comprehensive Guide", book12.title);
-            Assert.AreEqual("Computer", book12.genre);
-            Assert.AreEqual("49.95", book12.price);
+            Assert.Equal("bk112", book12.id);
+            Assert.Equal("Galos, Mike", book12.author);
+            Assert.Equal("Visual Studio 7: A Comprehensive Guide", book12.title);
+            Assert.Equal("Computer", book12.genre);
+            Assert.Equal("49.95", book12.price);
         }
 
-        [TestMethod]
+        [Fact]
         public void T06_BothPropertiesAndListRootXmlTest()
         {
             var nutrition = XmlSlurper.ParseText(getFile("Nutrition.xml"));
 
             var foodList = nutrition.foodList;
 
-            Assert.AreEqual(10, foodList.Count);
+            Assert.Equal(10, foodList.Count);
 
             var food1 = foodList[0];
-            Assert.AreEqual("Avocado Dip", food1.name);
-            Assert.AreEqual("Sunnydale", food1.mfr);
-            Assert.AreEqual("11", food1.totalfat);
+            Assert.Equal("Avocado Dip", food1.name);
+            Assert.Equal("Sunnydale", food1.mfr);
+            Assert.Equal("11", food1.totalfat);
 
-            Assert.AreEqual("1", food1.vitamins.a);
-            Assert.AreEqual("0", food1.vitamins.c);
+            Assert.Equal("1", food1.vitamins.a);
+            Assert.Equal("0", food1.vitamins.c);
 
 
         }
 
-        [TestMethod]
+        [Fact]
         public void T07_BothPropertiesAndListRecursiveXmlTest()
         {
             var city = XmlSlurper.ParseText(getFile("CityInfo.xml"));
 
-            Assert.IsTrue(city.Mayor == "Roni Mueller");
-            Assert.IsTrue(city.CityHall == "Schulstrasse 12");
-            Assert.IsTrue(city.Name == "Wilen bei Wollerau");
-            Assert.IsTrue(city.Gemeinde == "Freienbach");
-            Assert.AreEqual(3, city.StreetList.Count);
+            Assert.True(city.Mayor == "Roni Mueller");
+            Assert.True(city.CityHall == "Schulstrasse 12");
+            Assert.True(city.Name == "Wilen bei Wollerau");
+            Assert.True(city.Gemeinde == "Freienbach");
+            Assert.Equal(3, city.StreetList.Count);
 
-            Assert.AreEqual("8832", city.StreetList[2].PostCode);
-            Assert.AreEqual(3, city.StreetList[2].HouseNumberList.Count);
+            Assert.Equal("8832", city.StreetList[2].PostCode);
+            Assert.Equal(3, city.StreetList[2].HouseNumberList.Count);
         }
 
         /// <summary>
         /// Usage showcase
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void T08_PrintXmlContents1()
         {
             string xml = "<book id=\"bk101\" isbn=\"123456789\"><author>Gambardella, Matthew</author><title>XML Developer Guide</title></book>";
@@ -130,7 +130,7 @@ namespace Dandraka.XmlUtilities.Tests
         /// <summary>
         /// Usage showcase
         /// </summary>
-        [TestMethod]
+        [Fact]
         public void T09_PrintXmlContents2()
         {
             string xml = "<?xml version=\"1.0\" encoding=\"utf-8\" ?>" +
@@ -164,56 +164,62 @@ namespace Dandraka.XmlUtilities.Tests
             Console.WriteLine("name2 = " + nutrition.foodList[1].name);
         }
 
-        [TestMethod]
+        [Fact]
         public void T10_BoolIntDecimalDoubleTest()
         {
             var settings = XmlSlurper.ParseText(getFile("HardwareSettings.xml"));
 
-            Assert.AreEqual<bool?>(true, settings.view.displayIcons);
-            Assert.AreEqual<bool?>(false, settings.view.showFiles);
-            Assert.AreEqual<int?>(2, settings.performance.additionalChecks.disk.minFreeSpace);
-            Assert.AreEqual<double?>(5.5, settings.performance.additionalChecks.disk.warnFreeSpace);
-            Assert.AreEqual<decimal?>(5.5m, settings.performance.additionalChecks.disk.warnFreeSpace);
+            Assert.Equal<bool?>(true, settings.view.displayIcons);
+            Assert.Equal<bool?>(false, settings.view.showFiles);
+            Assert.Equal<int?>(2, settings.performance.additionalChecks.disk.minFreeSpace);
+            Assert.Equal<double?>(5.5, settings.performance.additionalChecks.disk.warnFreeSpace);
+            Assert.Equal<decimal?>(5.5m, settings.performance.additionalChecks.disk.warnFreeSpace);
 
-            Assert.AreEqual<bool>(true, settings.view.displayIcons);
-            Assert.AreEqual<bool>(false, settings.view.showFiles);
-            Assert.AreEqual<int>(2, settings.performance.additionalChecks.disk.minFreeSpace);
-            Assert.AreEqual<double>(5.5, settings.performance.additionalChecks.disk.warnFreeSpace);
-            Assert.AreEqual<decimal>(5.5m, settings.performance.additionalChecks.disk.warnFreeSpace);
+            Assert.True(settings.view.displayIcons);
+            Assert.False(settings.view.showFiles);
+            Assert.Equal<int>(2, settings.performance.additionalChecks.disk.minFreeSpace);
+            Assert.Equal<double>(5.5, settings.performance.additionalChecks.disk.warnFreeSpace);
+            Assert.Equal<decimal>(5.5m, settings.performance.additionalChecks.disk.warnFreeSpace);
 
             // usage showcase
             if (!settings.view.displayIcons)
             {
-                Assert.Fail();
+                Assert.True(false);
             }
             int? minFreeSpace = settings.performance.additionalChecks.disk.minFreeSpace;
             if (minFreeSpace != 2)
             {
-                Assert.Fail();
+                Assert.True(false);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void T11_ConversionExceptionTest()
         {
             var settings = XmlSlurper.ParseText(getFile("HardwareSettings.xml"));
 
-            Assert.ThrowsException<ValueConversionException>(() =>
+            Assert.Throws<ValueConversionException>(() =>
             {
                 int t = settings.view.displayIcons;
             });
-            Assert.ThrowsException<ValueConversionException>(() =>
+            Assert.Throws<ValueConversionException>(() =>
             {
                 decimal t = settings.view.displayIcons;
             });
-            Assert.ThrowsException<ValueConversionException>(() =>
+            Assert.Throws<ValueConversionException>(() =>
             {
                 double t = settings.view.displayIcons;
             });
-            Assert.ThrowsException<ValueConversionException>(() =>
+            Assert.Throws<ValueConversionException>(() =>
             {
                 bool t = settings.performance.additionalChecks.disk.minFreeSpace;
             });
+        }
+
+                [Fact]
+        public void T12_CDataTest()
+        {
+            var cdata = XmlSlurper.ParseText(getFile("CData.xml"));
         }
 
         private string getFile(string fileName)
