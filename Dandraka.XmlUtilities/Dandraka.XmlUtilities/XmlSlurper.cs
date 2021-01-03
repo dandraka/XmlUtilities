@@ -44,7 +44,7 @@ namespace Dandraka.XmlUtilities
                     && (c.LocalName != "#text") 
                     && (c.LocalName != "#cdata-section")).ToList())
                 {
-                    Console.WriteLine(xmlChild.LocalName);
+                    //Console.WriteLine(xmlChild.LocalName);
                     string name = getValidName(xmlChild.LocalName);
                     propertiesList.Add(new Tuple<string, XmlNode>(name, xmlChild));
                 }
