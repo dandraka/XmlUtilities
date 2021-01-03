@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Dynamic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Xml;
@@ -38,8 +37,14 @@ namespace Dandraka.XmlUtilities
 
             if (xmlObj.ChildNodes != null)
             {
-                foreach (var xmlChild in xmlObj.ChildNodes.OfType<XmlNode>().Where(c => c.LocalName != "#text").ToList())
+                // ignore xml comments, text and cdata nodes
+                // text and cdata are directly added as value
+                foreach (var xmlChild in xmlObj.ChildNodes.OfType<XmlNode>().Where(
+                    c => (c.LocalName != "#comment") 
+                    && (c.LocalName != "#text") 
+                    && (c.LocalName != "#cdata-section")).ToList())
                 {
+                    Console.WriteLine(xmlChild.LocalName);
                     string name = getValidName(xmlChild.LocalName);
                     propertiesList.Add(new Tuple<string, XmlNode>(name, xmlChild));
                 }
@@ -62,6 +67,7 @@ namespace Dandraka.XmlUtilities
                     // add property to parent
                     dynamic newMember = new ToStringExpandoObject();
                     XmlNode node = group.First().Item2;
+                    // ignore xml comments
                     newMember.__value = getXmlNodeValue(node);
                     newMember.ToString = (ToStringFunc)(() => newMember.__value);
                     string newMemberName = group.Key;
@@ -110,7 +116,14 @@ namespace Dandraka.XmlUtilities
             if (node is XmlElement)
             {
                 var e = (node as XmlElement);
-                return e.Value ?? e.ChildNodes.OfType<XmlNode>().FirstOrDefault(c => c.LocalName == "#text")?.Value;
+                return e.Value ?? e.ChildNodes.OfType<XmlNode>().FirstOrDefault(
+                    c => (c.LocalName == "#text") 
+                    || (c.LocalName == "#cdata-section"))?.Value;
+            }
+            if (node is XmlCDataSection)
+            {
+                var e = (node as XmlCDataSection);
+                return e.Value;
             }
             throw new NotSupportedException($"Type {node.GetType().FullName} is not supported");
         }        

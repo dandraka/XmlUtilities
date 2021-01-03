@@ -216,10 +216,26 @@ namespace Dandraka.XmlUtilities.Tests
             });
         }
 
-                [Fact]
+        [Fact]
         public void T12_CDataTest()
         {
             var cdata = XmlSlurper.ParseText(getFile("CData.xml"));
+
+            // test cdata for single nodes
+            Assert.Equal("DOCUMENTO N. 1234-9876", cdata.Title);
+
+            // test cdata for list nodes
+            dynamic attr = cdata.AttributeList[0];
+            Assert.Equal("document.id", attr.Name);
+            Assert.Equal("<string>DOCUMENTO N. 1234-9876</string>", attr);
+
+            attr = cdata.AttributeList[4];
+            Assert.Equal("receipt.date", attr.Name);
+            Assert.Equal("<string>2020-12-28</string>", attr);
+
+            attr = cdata.AttributeList[5];
+            Assert.Equal("fcurrency", attr.Name);
+            Assert.Equal("EUR", attr);
         }
 
         private string getFile(string fileName)
