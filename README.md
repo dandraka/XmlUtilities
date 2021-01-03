@@ -98,7 +98,9 @@ public void ReadSettings()
 ```
 
 ## Releases: 
-Release 1.2.x fixes most, if not all, of the bugs from version 1.1.
+Release 1.3 is fully backwards compatible with 1.1 and 1.2 and has two changes:
+1. Supports CDATA xml nodes and therefore solves issue #2 "Type System.Xml.XmlCDataSection is not supported".
+2. Ignores COMMENT xml nodes and therefore solves issue "Type System.Xml.XmlComment is not supported".
 
 ## Note: 
 Although not required by the license, the author kindly asks that you share any improvements you make.
