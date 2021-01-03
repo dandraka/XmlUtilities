@@ -6,21 +6,28 @@
     <Company>dandraka.com</Company>
     <Description>An XmlSlurper implementation for .Net.</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageLicenseUrl>https://raw.githubusercontent.com/dandraka/XmlUtilities/master/LICENSE</PackageLicenseUrl>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/dandraka/XmlUtilities</PackageProjectUrl>
     <RepositoryUrl>https://github.com/dandraka/XmlUtilities/</RepositoryUrl>
     <Copyright>Copyright (c) 2017 Jim (Dimitrios) Andrakakis</Copyright>
-    <PackageIconUrl>https://github.com/dandraka/XmlUtilities/raw/master/icon.png</PackageIconUrl>
-    <Version>1.2.1</Version>
-    <PackageReleaseNotes>Release 1.2 is fully backwards compatible with 1.1 and has two major changes: 
-1. a major overhaul of the tree walking algorithm, which now can take every xml you can throw at it. This solves most, if not all, the bugs of the previous release.
-2. an implicit type conversion for string, int, decimal, double and bool. So now you can parse an xml and directly use its numbers or true/false values (see examples).</PackageReleaseNotes>
+    <PackageIcon>icon.png</PackageIcon>
+    <Version>1.3.0</Version>
+    <PackageReleaseNotes>
+Release 1.3 is fully backwards compatible with 1.1 and 1.2 and has two changes: 
+1. Supports CDATA xml nodes and therefore solves issue #2 "Type System.Xml.XmlCDataSection is not supported".
+2. Ignores COMMENT xml nodes and therefore solves issue "Type System.Xml.XmlComment is not supported".
+    </PackageReleaseNotes>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageTags>xml parsing dynamic</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.CSharp" Version="4.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="LICENSE.txt" Pack="true" PackagePath="LICENSE.txt"/>
+    <None Include="icon.png" Pack="true" PackagePath="icon.png"/>
   </ItemGroup>
 
 </Project>
