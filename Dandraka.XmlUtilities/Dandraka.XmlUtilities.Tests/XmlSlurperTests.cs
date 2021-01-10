@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Net.Http;
 using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Dandraka.XmlUtilities.Tests
@@ -238,10 +242,53 @@ namespace Dandraka.XmlUtilities.Tests
             Assert.Equal("EUR", attr);
         }
 
+        [Fact]
+        public void T13_BigXmlTest()
+        {
+            var urlList = new List<string>()
+            {
+                // 1MB
+                "http://aiweb.cs.washington.edu/research/projects/xmltk/xmldata/data/mondial/mondial-3.0.xml",
+                // 30 MB
+                "http://aiweb.cs.washington.edu/research/projects/xmltk/xmldata/data/tpc-h/lineitem.xml",
+                // 109 MB
+                "http://aiweb.cs.washington.edu/research/projects/xmltk/xmldata/data/SwissProt/SwissProt.xml" /*,
+                // 683 MB
+                "http://aiweb.cs.washington.edu/research/projects/xmltk/xmldata/data/pir/psd7003.xml"*/
+            };
+
+            var getter = getHttpFiles(urlList);
+            getter.Wait(5 * 60 * 1000); // 5min
+            foreach (string xml in getter.Result)
+            {    
+                Console.WriteLine($"Parsing {Math.Round(xml.Length / (1024m * 1024m), 2)} MB");
+                var cdata = XmlSlurper.ParseText(xml);                
+            }            
+        }
+
         private string getFile(string fileName)
         {
             string path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "testdata", fileName);
             return File.ReadAllText(path);
+        }
+
+        private async Task<List<string>> getHttpFiles(List<string> urlList)
+        {
+            var list = new List<string>();
+            using (var client = new HttpClient())
+            {
+                foreach (var url in urlList)
+                {
+                    var result = await client.GetAsync(url);
+                    if (result.IsSuccessStatusCode)
+                    {
+                        var content = await result.Content.ReadAsByteArrayAsync();
+                        list.Add(Encoding.UTF8.GetString(content));
+                        Console.WriteLine($"Read {Math.Round(list[list.Count-1].Length / (1024m * 1024m), 2)} MB from {url}");
+                    }
+                }
+            }
+            return list;
         }
     }
 }
