@@ -18,8 +18,8 @@ jobs:
       with:
         dotnet-version: 3.1.301
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore Dandraka.XmlUtilities/Dandraka.XmlUtilities.sln
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build Dandraka.XmlUtilities/Dandraka.XmlUtilities.sln --no-restore
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test Dandraka.XmlUtilities/Dandraka.XmlUtilities.Tests/Dandraka.XmlUtilities.Tests.csproj --no-build --verbosity normal
