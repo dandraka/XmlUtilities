@@ -9,7 +9,6 @@ using Xunit;
 
 namespace Dandraka.XmlUtilities.Tests
 {
-    //[TestClass]
     public class XmlSlurperTests
     {
         [Fact]
@@ -124,11 +123,11 @@ namespace Dandraka.XmlUtilities.Tests
             string xml = "<book id=\"bk101\" isbn=\"123456789\"><author>Gambardella, Matthew</author><title>XML Developer Guide</title></book>";
             var book = XmlSlurper.ParseText(xml);
 
-            // that's it, now we have everything
-            Console.WriteLine("id = " + book.id);
-            Console.WriteLine("isbn = " + book.isbn);
-            Console.WriteLine("author = " + book.author);
-            Console.WriteLine("title = " + book.title);
+            // that's it, now we have everything            
+            Console.WriteLine("T08 id = " + book.id);
+            Console.WriteLine("T08 isbn = " + book.isbn);
+            Console.WriteLine("T08 author = " + book.author);
+            Console.WriteLine("T08 title = " + book.title);
         }
 
         /// <summary>
@@ -164,8 +163,8 @@ namespace Dandraka.XmlUtilities.Tests
             var nutrition = XmlSlurper.ParseText(xml);
 
             // since many food nodes were found, a list was generated and named foodList (common name + "List")
-            Console.WriteLine("name1 = " + nutrition.foodList[0].name);
-            Console.WriteLine("name2 = " + nutrition.foodList[1].name);
+            Console.WriteLine("T09 name1 = " + nutrition.foodList[0].name);
+            Console.WriteLine("T09 name2 = " + nutrition.foodList[1].name);
         }
 
         [Fact]
@@ -256,14 +255,14 @@ namespace Dandraka.XmlUtilities.Tests
                 // 683 MB
                 "http://aiweb.cs.washington.edu/research/projects/xmltk/xmldata/data/pir/psd7003.xml"*/
             };
-
+            
             var getter = getHttpFiles(urlList);
-            getter.Wait(5 * 60 * 1000); // 5min
+            getter.Wait(5 * 60 * 1000); // 5min max                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
             foreach (string xml in getter.Result)
-            {    
-                Console.WriteLine($"Parsing {Math.Round(xml.Length / (1024m * 1024m), 2)} MB");
-                var cdata = XmlSlurper.ParseText(xml);                
-            }            
+            {
+                Console.WriteLine($"T13 Parsing {Math.Round(xml.Length / (1024m * 1024m), 2)} MB");
+                var cdata = XmlSlurper.ParseText(xml);
+            }
         }
 
         private string getFile(string fileName)
@@ -279,12 +278,23 @@ namespace Dandraka.XmlUtilities.Tests
             {
                 foreach (var url in urlList)
                 {
-                    var result = await client.GetAsync(url);
-                    if (result.IsSuccessStatusCode)
+                    try
                     {
-                        var content = await result.Content.ReadAsByteArrayAsync();
-                        list.Add(Encoding.UTF8.GetString(content));
-                        Console.WriteLine($"Read {Math.Round(list[list.Count-1].Length / (1024m * 1024m), 2)} MB from {url}");
+                        var result = await client.GetAsync(url);
+                        if (result.IsSuccessStatusCode)
+                        {
+                            var content = await result.Content.ReadAsByteArrayAsync();
+                            list.Add(Encoding.UTF8.GetString(content));
+                            Console.WriteLine($"GET HTTP: Read {Math.Round(list[list.Count - 1].Length / (1024m * 1024m), 2)} MB from {url}");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"*** WARNING *** GET HTTP: Could not download from {url}, skipping.\r\nResult {result.StatusCode}: {result.ReasonPhrase}");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"*** WARNING *** GET HTTP: Could not download from {url}, skipping.\r\nException {ex.GetType().FullName}: {ex.Message}");
                     }
                 }
             }
