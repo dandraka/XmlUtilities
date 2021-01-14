@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Xml;
@@ -15,13 +16,39 @@ namespace Dandraka.XmlUtilities
     /// </summary>
     public static class XmlSlurper
     {
+        /// <summary>
+        /// Specifies the suffix for properties generated 
+        /// for repeated xml nodes, i.e. lists.
+        /// Default value is "List", so for repeated nodes
+        /// named "Customer", the generated property
+        /// will be named "CustomerList".
+        /// <summary>
         public static string ListSuffix { get; set; } = "List";
+
+        /// <summary>
+        /// Parses the given xml file and returns a <c>System.Dynamic.ToStringExpandoObject</c>.
+        /// </summary>
+        /// <param name="path">The full path to the xml file.</param>
+        /// <returns>A dynamic object generated from the xml data.</returns>
+        public static dynamic ParseFile(string path)
+        {
+            if (!File.Exists(path))
+            {
+                throw new FileNotFoundException($"File '{path}' was not found.");
+            }
+
+            var xmlDoc = new XmlDocument();
+            xmlDoc.Load(path);
+
+            var root = xmlDoc.DocumentElement;
+            return AddRecursive(new ToStringExpandoObject(), root);
+        }
 
         /// <summary>
         /// Parses the given xml and returns a <c>System.Dynamic.ToStringExpandoObject</c>.
         /// </summary>
-        /// <param name="text"></param>
-        /// <returns></returns>
+        /// <param name="text">The xml content.</param>
+        /// <returns>A dynamic object generated from the xml data.</returns>
         public static dynamic ParseText(string text)
         {
             var xmlDoc = new XmlDocument();
