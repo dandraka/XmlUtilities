@@ -290,10 +290,10 @@ namespace Dandraka.XmlUtilities.Tests
             {
                 // 1MB
                 "http://aiweb.cs.washington.edu/research/projects/xmltk/xmldata/data/mondial/mondial-3.0.xml",
-                // 30 MB
-                "http://aiweb.cs.washington.edu/research/projects/xmltk/xmldata/data/tpc-h/lineitem.xml" /*,
+                // 30 MB                
+                "http://aiweb.cs.washington.edu/research/projects/xmltk/xmldata/data/tpc-h/lineitem.xml",
                 // 109 MB
-                "http://aiweb.cs.washington.edu/research/projects/xmltk/xmldata/data/SwissProt/SwissProt.xml",
+                "http://aiweb.cs.washington.edu/research/projects/xmltk/xmldata/data/SwissProt/SwissProt.xml" /*,
                 // 683 MB
                 "http://aiweb.cs.washington.edu/research/projects/xmltk/xmldata/data/pir/psd7003.xml"*/
             };
@@ -302,11 +302,16 @@ namespace Dandraka.XmlUtilities.Tests
             getter.Wait(5 * 60 * 1000); // 5min max        
             var stopWatch = new Stopwatch();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
             foreach (string xml in getter.Result)
-            {                
+            {   
+                stopWatch.Reset();             
                 stopWatch.Start();
                 var cdata = XmlSlurper.ParseText(xml);
                 stopWatch.Stop();
-                Console.WriteLine($"T13 Parsed {Math.Round(xml.Length / (1024m * 1024m), 2)} MB in {stopWatch.ElapsedMilliseconds} ms");
+
+                Decimal fileSizeMb = Math.Round(xml.Length / (1024m * 1024m), 2);
+                Int64 timeMs = stopWatch.ElapsedMilliseconds;
+                Decimal speed = Math.Round(timeMs / fileSizeMb, 0);
+                Console.WriteLine($"T13 Parsed {fileSizeMb} MB in {timeMs} ms (approx. {speed} ms/MB)");
             }
         }
 
@@ -336,7 +341,7 @@ namespace Dandraka.XmlUtilities.Tests
                         {
                             var content = await result.Content.ReadAsByteArrayAsync();
                             list.Add(Encoding.UTF8.GetString(content));
-                            Console.WriteLine($"GET HTTP: Read {Math.Round(list[list.Count - 1].Length / (1024m * 1024m), 2)} MB from {url}");
+                            //Console.WriteLine($"GET HTTP: Read {Math.Round(list[list.Count - 1].Length / (1024m * 1024m), 2)} MB from {url}");
                         }
                         else
                         {
