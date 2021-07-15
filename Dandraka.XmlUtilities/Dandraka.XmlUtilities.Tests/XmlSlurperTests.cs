@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
 using System.Reflection;
@@ -20,7 +21,7 @@ namespace Dandraka.XmlUtilities.Tests
             foreach (var city in new[] { city1, city2 })
             {
                 Assert.NotNull(city);
-                Assert.NotNull(city);
+                Assert.NotNull(city.Name);
             }
         }
 
@@ -290,19 +291,22 @@ namespace Dandraka.XmlUtilities.Tests
                 // 1MB
                 "http://aiweb.cs.washington.edu/research/projects/xmltk/xmldata/data/mondial/mondial-3.0.xml",
                 // 30 MB
-                "http://aiweb.cs.washington.edu/research/projects/xmltk/xmldata/data/tpc-h/lineitem.xml",
+                "http://aiweb.cs.washington.edu/research/projects/xmltk/xmldata/data/tpc-h/lineitem.xml" /*,
                 // 109 MB
-                "http://aiweb.cs.washington.edu/research/projects/xmltk/xmldata/data/SwissProt/SwissProt.xml" /*,
+                "http://aiweb.cs.washington.edu/research/projects/xmltk/xmldata/data/SwissProt/SwissProt.xml",
                 // 683 MB
                 "http://aiweb.cs.washington.edu/research/projects/xmltk/xmldata/data/pir/psd7003.xml"*/
             };
 
             var getter = getHttpFiles(urlList);
-            getter.Wait(5 * 60 * 1000); // 5min max                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+            getter.Wait(5 * 60 * 1000); // 5min max        
+            var stopWatch = new Stopwatch();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
             foreach (string xml in getter.Result)
-            {
-                Console.WriteLine($"T13 Parsing {Math.Round(xml.Length / (1024m * 1024m), 2)} MB");
+            {                
+                stopWatch.Start();
                 var cdata = XmlSlurper.ParseText(xml);
+                stopWatch.Stop();
+                Console.WriteLine($"T13 Parsed {Math.Round(xml.Length / (1024m * 1024m), 2)} MB in {stopWatch.ElapsedMilliseconds} ms");
             }
         }
 
